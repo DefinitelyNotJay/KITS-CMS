@@ -1,4 +1,4 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, int, varchar, timestamp, foreignKey, unique, text, double, datetime, mysqlEnum, check, longtext, smallint, time, float, decimal, date, tinyint } from "drizzle-orm/mysql-core"
+import { mysqlTable, mysqlSchema, int, varchar, timestamp, foreignKey, unique, text, double, datetime, mysqlEnum, check, longtext, smallint, time, float, decimal, date, tinyint } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
 
 export const adonisSchema = mysqlTable("adonis_schema", {
@@ -329,8 +329,8 @@ export const profiles = mysqlTable("profiles", {
 	email: varchar({ length: 255 }).default('NULL'),
 	bio: text().default('NULL'),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default('NULL'),
-	major: mysqlEnum(['it','dsba','ait']).default(sql`NULL`),
-	year: int().default(sql`NULL`),
+	major: mysqlEnum(['it','dsba','ait']).default('NULL'),
+	year: int().default('NULL'),
 	track: varchar({ length: 255 }).default('NULL'),
 },
 (table) => [
@@ -365,7 +365,7 @@ export const quizzes = mysqlTable("quizzes", {
 	resourceGroupId: int("resource_group_id").default('NULL').references(() => resourceGroups.id, { onDelete: "cascade", onUpdate: "restrict" } ),
 	title: varchar({ length: 255 }).notNull(),
 	description: longtext().default('NULL'),
-	passPercentage: float("pass_percentage"{ precision: 8, scale: 2 }).default('NULL'),
+	passPercentage: float("pass_percentage", { precision: 8, scale: 2 }).default('NULL'),
 	maxSubmission: int("max_submission").default(0).notNull(),
 	type: mysqlEnum(['pre_test','post_test']).default('NULL'),
 	createdAt: timestamp("created_at", { mode: 'string' }).default('current_timestamp()'),
@@ -391,7 +391,7 @@ export const quizGrades = mysqlTable("quiz_grades", {
 	correctedQuestions: int("corrected_questions").default(0).notNull(),
 	allQuestions: int("all_questions").default(0).notNull(),
 	score: float({ precision: 10, scale: 2 }).notNull(),
-	maxScore: float("max_score"{ precision: 10, scale: 2 }).notNull(),
+	maxScore: float("max_score", { precision: 10, scale: 2 }).notNull(),
 	submission: longtext().default('NULL'),
 	remark: varchar({ length: 2048 }).default('NULL'),
 	createdAt: timestamp("created_at", { mode: 'string' }).default('current_timestamp()'),
@@ -505,7 +505,7 @@ export const sections = mysqlTable("sections", {
 	meetingLink: varchar("meeting_link", { length: 255 }).default('NULL'),
 	order: int().default(0).notNull(),
 	isAvailable: tinyint("is_available").default(1),
-	videoQualities: longtext("video_qualities").default('''[]''').notNull(),
+	videoQualities: longtext("video_qualities").default('').notNull(),
 },
 (table) => [
 	unique("sections_quiz_id_unique").on(table.quizId),
